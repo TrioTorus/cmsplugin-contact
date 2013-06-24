@@ -1,30 +1,25 @@
 from django import forms
+from django.utils.translation import ugettext_lazy as _
 #import settings
-from stopspam.forms import HoneyPotForm, RecaptchaForm, AkismetForm
+from cmsplugin_contact.nospam.forms import HoneyPotForm, RecaptchaForm, AkismetForm
+  
+class ContactForm(forms.Form):
+    email = forms.EmailField(label=_("Email"))
+    subject = forms.CharField(label=_("Subject"), required=False)
+    content = forms.CharField(label=_("Content"), widget=forms.Textarea())
   
 class HoneyPotContactForm(HoneyPotForm):
-    email 	= forms.EmailField()
-    subject	= forms.CharField(required=False)
-    content	= forms.CharField(widget=forms.Textarea())
-
+    pass
 
 class AkismetContactForm(AkismetForm):
     akismet_fields = {
         'comment_author_email': 'email',
         'comment_content': 'content'
     }
-    email     = forms.EmailField()
-    subject    = forms.CharField(required=False)
-    content    = forms.CharField(widget=forms.Textarea())
-    
     akismet_api_key = None
     
 
 class RecaptchaContactForm(RecaptchaForm):
-    email     = forms.EmailField()
-    subject    = forms.CharField(required=False)
-    content    = forms.CharField(widget=forms.Textarea())
-
     recaptcha_public_key = None
     recaptcha_private_key = None
     recaptcha_theme = None
